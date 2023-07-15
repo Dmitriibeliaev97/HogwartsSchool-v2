@@ -5,7 +5,9 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.services.StudentService;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -39,4 +41,13 @@ public class StudentServiceImpl implements StudentService {
     public void remove(Long id) {
         students.remove(id);
     }
+
+    @Override
+    public List<Student> getStudentByAge(int age) {
+        return students.values()
+                .stream()
+                .filter(it -> it.getAge() == age)
+                .collect(Collectors.toList());
+    }
+
 }

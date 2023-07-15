@@ -6,6 +6,8 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.services.FacultyService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/faculties")
 public class FacultyController {
@@ -38,5 +40,10 @@ public class FacultyController {
     @DeleteMapping("{id}")
     public void remove(@PathVariable Long id) {
         facultyService.remove(id);
+    }
+
+    @GetMapping("/by-color")
+    public List<Faculty> getFacultyByColor(@RequestParam String color) {
+        return facultyService.getFacultyByColor(color);
     }
 }
