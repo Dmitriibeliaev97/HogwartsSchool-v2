@@ -27,8 +27,8 @@ public class StudentController {
     }
 
     @PutMapping
-    public ResponseEntity<Student> update(@PathVariable Long id, @RequestBody Student student) {
-        Student savedStudent = studentService.update(id, student);
+    public ResponseEntity<Student> update(@RequestBody Student student) {
+        Student savedStudent = studentService.update(student);
         if (savedStudent == null) {
             return ResponseEntity.badRequest().build();
         } else {
@@ -44,5 +44,10 @@ public class StudentController {
     @GetMapping("/by-age")
     public List<Student> getStudentsByAge(@RequestParam int age) {
         return studentService.getStudentByAge(age);
+    }
+
+    @GetMapping
+    public List<Student> getAllStudents() {
+        return studentService.getAllStudents();
     }
 }

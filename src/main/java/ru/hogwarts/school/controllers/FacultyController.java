@@ -46,4 +46,9 @@ public class FacultyController {
     public List<Faculty> getFacultyByColor(@RequestParam String color) {
         return facultyService.getFacultyByColor(color);
     }
+
+    @GetMapping
+    public List<Faculty> getAllFaculties() {
+        return facultyService.getAllFaculties();
+    }
 }
