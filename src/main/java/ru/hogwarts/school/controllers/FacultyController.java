@@ -29,11 +29,11 @@ public class FacultyController {
 
     @PutMapping
     public ResponseEntity<Faculty> update(@PathVariable Long id, @RequestBody Faculty faculty) {
-        Faculty savedFacultyt = facultyService.update(id, faculty);
-        if (savedFacultyt == null) {
+        Faculty savedFaculty = facultyService.update(id, faculty);
+        if (savedFaculty == null) {
             return ResponseEntity.badRequest().build();
         } else {
-            return ResponseEntity.ok(savedFacultyt);
+            return ResponseEntity.ok(savedFaculty);
         }
     }
 
@@ -50,5 +50,15 @@ public class FacultyController {
     @GetMapping
     public List<Faculty> getAllFaculties() {
         return facultyService.getAllFaculties();
+    }
+
+    @GetMapping
+    public List<Faculty> getFacultyByName(@RequestParam String name) {
+        return facultyService.getFacultyByName(name);
+    }
+
+    @GetMapping
+    public Faculty getFacultyOfStudent (@RequestParam String name) {
+        return facultyService.getFacultyOfStudent(name);
     }
 }
