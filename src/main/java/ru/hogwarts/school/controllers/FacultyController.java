@@ -1,12 +1,13 @@
 package ru.hogwarts.school.controllers;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.services.FacultyService;
 
-import java.util.List;
+import java.util.Collection;
 
 @RestController
 @RequestMapping("/faculties")
@@ -18,8 +19,12 @@ public class FacultyController {
     }
 
     @GetMapping("{id}")
-    public Faculty get(@PathVariable Long id) {
-        return facultyService.get(id);
+    public ResponseEntity<Faculty> get(@PathVariable Long id) {
+        Faculty faculty = facultyService.get(id);
+        if (faculty == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(faculty);
     }
 
     @PostMapping
@@ -38,27 +43,28 @@ public class FacultyController {
     }
 
     @DeleteMapping("{id}")
-    public void remove(@PathVariable Long id) {
+    public ResponseEntity remove(@PathVariable Long id) {
         facultyService.remove(id);
+        return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/by-color")
-    public List<Faculty> getFacultyByColor(@RequestParam String color) {
+    @GetMapping("/by-color/{color}")
+    public Collection<Faculty> getFacultyByColor(@PathVariable String color) {
         return facultyService.getFacultyByColor(color);
     }
 
     @GetMapping
-    public List<Faculty> getAllFaculties() {
+    public Collection<Faculty> getAllFaculties() {
         return facultyService.getAllFaculties();
     }
 
-    @GetMapping
-    public List<Faculty> getFacultyByName(@RequestParam String name) {
-        return facultyService.getFacultyByName(name);
+    @GetMapping("/findFaculty")
+    public ResponseEntity<Collection<Faculty>> getFacultyByNameOrColor(@RequestParam(required = false) String name, @RequestParam(required = false) String color) {
+        return ResponseEntity.ok(facultyService.getFacultyByNameOrColor(name, color));
     }
 
-    @GetMapping
-    public Faculty getFacultyOfStudent (@RequestParam String name) {
-        return facultyService.getFacultyOfStudent(name);
+    @GetMapping("/studentsByID/{id}")
+    public Collection<Student> getStudentsByIdOfFaculty (@PathVariable Long id) {
+        return facultyService.getStudentsOfFaculties(id);
     }
 }

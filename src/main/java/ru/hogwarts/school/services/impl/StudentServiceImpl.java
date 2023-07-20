@@ -8,9 +8,6 @@ import ru.hogwarts.school.repository.StudentRepository;
 import ru.hogwarts.school.services.StudentService;
 
 import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Service
 public class StudentServiceImpl implements StudentService {
     private final StudentRepository studentRepository;
@@ -41,23 +38,23 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> getStudentByAge(int age) {
+    public Collection<Student> getStudentByAge(int age) {
         return studentRepository.findByAge(age);
     }
 
     @Override
-    public List<Student> getAllStudents() {
+    public Collection<Student> getAllStudents() {
         return studentRepository.findAll();
     }
 
     @Override
-    public List<Student> getStudentsBetweenAge(int min, int max) {
+    public Collection<Student> getStudentsBetweenAge(int min, int max) {
         return studentRepository.findByAgeBetween(min, max);
     }
 
     @Override
-    public List<Student> getAllStudentsOfFaculty(String facultyName) {
-        return studentRepository.findAllStudentsByFaculty(facultyName);
+    public Collection<Faculty> getFacultyOfStudent(Long id) {
+        return studentRepository.findById(id).getFaculty();
     }
 
 }

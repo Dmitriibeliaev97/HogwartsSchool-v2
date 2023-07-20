@@ -1,9 +1,9 @@
 package ru.hogwarts.school.services;
 
-import org.hibernate.sql.ast.tree.expression.Collation;
+import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 
-import java.util.List;
+import java.util.Collection;
 
 public interface StudentService {
     Student add(Student student);
@@ -14,9 +14,9 @@ public interface StudentService {
 
     void remove(Long id);
 
-    List<Student> getStudentByAge(int age);
+    Collection<Student> getStudentByAge(int age);
 
-    List<Student> getAllStudents();
-    List<Student> getStudentsBetweenAge(int min, int max);
-    List<Student> getAllStudentsOfFaculty(String facultyName);
+    Collection<Student> getAllStudents();
+    Collection<Student> getStudentsBetweenAge(int min, int max);
+    Collection<Faculty> getFacultyOfStudent(Long id);
 }
