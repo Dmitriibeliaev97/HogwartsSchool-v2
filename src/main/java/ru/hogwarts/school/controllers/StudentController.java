@@ -1,6 +1,5 @@
 package ru.hogwarts.school.controllers;
 
-import org.hibernate.sql.ast.tree.expression.Collation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +8,7 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.services.StudentService;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/students")

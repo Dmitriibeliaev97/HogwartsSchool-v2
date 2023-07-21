@@ -8,6 +8,7 @@ import ru.hogwarts.school.repository.StudentRepository;
 import ru.hogwarts.school.services.StudentService;
 
 import java.util.Collection;
+
 @Service
 public class StudentServiceImpl implements StudentService {
     private final StudentRepository studentRepository;
@@ -53,8 +54,8 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Collection<Faculty> getFacultyOfStudent(Long id) {
-        return studentRepository.findById(id).getFaculty();
+    public Faculty getFacultyOfStudent(Long id) {
+        return studentRepository.getById(id).getFaculty();
     }
 
 }

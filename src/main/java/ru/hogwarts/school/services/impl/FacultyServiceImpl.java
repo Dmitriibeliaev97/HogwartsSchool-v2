@@ -52,7 +52,7 @@ public class FacultyServiceImpl implements FacultyService {
 
     @Override
     public Collection<Student> getStudentsOfFaculties(Long id) {
-        return facultyRepository.findById(id).getStudents();
+        return facultyRepository.getById(id).getStudents();
     }
 
 
