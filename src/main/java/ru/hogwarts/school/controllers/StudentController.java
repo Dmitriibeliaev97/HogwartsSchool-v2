@@ -19,7 +19,7 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Student> get(@PathVariable Long id) {
         Student student = studentService.get(id);
         if (student == null) {
@@ -33,9 +33,9 @@ public class StudentController {
         return studentService.add(student);
     }
 
-    @PutMapping
-    public ResponseEntity<Student> update(@RequestBody Student student) {
-        Student savedStudent = studentService.update(student);
+    @PutMapping("/{id}")
+    public ResponseEntity<Student> update(@PathVariable Long id, @RequestBody Student student) {
+        Student savedStudent = studentService.update(id, student);
         if (savedStudent == null) {
             return ResponseEntity.badRequest().build();
         } else {
@@ -43,7 +43,7 @@ public class StudentController {
         }
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity remove(@PathVariable Long id) {
         studentService.remove(id);
         return ResponseEntity.ok().build();
@@ -63,7 +63,7 @@ public class StudentController {
     public Collection<Student> getStudentBetweenAge(@RequestParam int min, @RequestParam int max) {
         return studentService.getStudentsBetweenAge(min, max);
     }
-    @GetMapping("getFacultyByID/{id}")
+    @GetMapping("/getFacultyByID/{id}")
     public ResponseEntity<Faculty> getFacultyOfStudent(@PathVariable Long id) {
         Faculty faculty = studentService.getFacultyOfStudent(id);
         return ResponseEntity.ok(faculty);

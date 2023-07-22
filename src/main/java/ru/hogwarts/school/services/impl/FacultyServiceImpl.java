@@ -1,5 +1,8 @@
 package ru.hogwarts.school.services.impl;
 
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
@@ -11,6 +14,7 @@ import java.util.Collection;
 @Service
 public class FacultyServiceImpl implements FacultyService {
     private final FacultyRepository facultyRepository;
+
     public FacultyServiceImpl(FacultyRepository facultyRepository) {
         this.facultyRepository = facultyRepository;
     }
@@ -27,7 +31,13 @@ public class FacultyServiceImpl implements FacultyService {
 
     @Override
     public Faculty update(Long id, Faculty faculty) {
-        return facultyRepository.save(faculty);
+        Faculty savedFaculty = get(id);
+        if (savedFaculty == null) {
+            return null;
+        }
+        savedFaculty.setName(faculty.getName());
+        savedFaculty.setColor(faculty.getColor());
+        return facultyRepository.save(savedFaculty);
     }
 
     @Override

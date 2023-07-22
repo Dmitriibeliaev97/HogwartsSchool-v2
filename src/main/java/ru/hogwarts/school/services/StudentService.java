@@ -10,7 +10,7 @@ public interface StudentService {
 
     Student get(Long id);
 
-    Student update(Student student);
+    Student update(Long id, Student student);
 
     void remove(Long id);
 
