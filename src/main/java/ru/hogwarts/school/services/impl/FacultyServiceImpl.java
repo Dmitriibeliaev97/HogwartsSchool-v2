@@ -1,8 +1,5 @@
 package ru.hogwarts.school.services.impl;
 
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
@@ -22,15 +19,15 @@ public class FacultyServiceImpl implements FacultyService {
     @Override
     public Faculty add(Faculty faculty) {
         return facultyRepository.save(faculty);
-    }
+    } // CREATE
 
     @Override
     public Faculty get(Long id) {
         return facultyRepository.findById(id).orElse(null);
-    }
+    } // READ
 
     @Override
-    public Faculty update(Long id, Faculty faculty) {
+    public Faculty update(Long id, Faculty faculty) { // UPDATE
         Faculty savedFaculty = get(id);
         if (savedFaculty == null) {
             return null;
@@ -43,7 +40,7 @@ public class FacultyServiceImpl implements FacultyService {
     @Override
     public void remove(Long id) {
         facultyRepository.deleteById(id);
-    }
+    } // DELETE
 
     @Override
     public Collection<Faculty> getFacultyByColor(String color) {
