@@ -103,5 +103,6 @@ public class Avatar {
                 ", data=" + Arrays.toString(data) +
                 ", student=" + student +
                 '}';
+
     }
 }
