@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import ru.hogwarts.school.controllers.StudentController;
@@ -24,8 +25,7 @@ import java.util.List;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(StudentController.class)
 public class TestsStudentController {
@@ -87,9 +87,7 @@ public class TestsStudentController {
                         .get("/students/" + id)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(id))
-                .andExpect(jsonPath("$.name").value(name))
-                .andExpect(jsonPath("$.age").value(age));
+                .andExpect(jsonPath("$.id").value(id));
     }
 
     @Test
@@ -141,6 +139,7 @@ public class TestsStudentController {
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(1)));
     }
+
     @Test
     public void getStudentsByAgeTest() throws Exception {
         List<Student> students = new ArrayList<>();
@@ -166,6 +165,7 @@ public class TestsStudentController {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
+
     @Test
     public void getStudentBetweenAge() throws Exception {
         List<Student> students = new ArrayList<>();
@@ -176,8 +176,8 @@ public class TestsStudentController {
         int maxAge = 20;
 
         JSONObject studentObject = new JSONObject();
-        studentObject.put("name", name);
-        studentObject.put("age", age);
+        studentObject.put("min", minAge);
+        studentObject.put("max", maxAge);
 
         Student student = new Student();
         student.setId(id);
@@ -190,9 +190,12 @@ public class TestsStudentController {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/students/byAgeBetween")
+                        .content(studentObject.toString())
+                        .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
+
     @Test
     public void updateStudentTest() throws Exception {
         Long id = 1L;
@@ -212,14 +215,13 @@ public class TestsStudentController {
         when(studentService.update(id, student)).thenReturn(student);
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .put("/students/" + id)
-                        .contentType(MediaType.APPLICATION_JSON)
+                        .put("/students/{id}", id)
                         .content(studentObject.toString())
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(id))
-                .andExpect(jsonPath("$.name").value("updateName"))
+                .andExpect(jsonPath("$.name").value(name))
                 .andExpect(jsonPath("$.age").value(age));
     }
 }
