@@ -173,11 +173,11 @@ public class TestsStudentController {
         String name = "Bob";
         int age = 12;
         int minAge = 10;
-        int maxAge = 20;
+        int maxAge = 12;
 
         JSONObject studentObject = new JSONObject();
-        studentObject.put("min", minAge);
-        studentObject.put("max", maxAge);
+        studentObject.put("name", name);
+        studentObject.put("age", age);
 
         Student student = new Student();
         student.setId(id);
@@ -189,7 +189,7 @@ public class TestsStudentController {
         when(studentService.getStudentsBetweenAge(minAge, maxAge)).thenReturn(students);
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/students/byAgeBetween")
+                        .get("/students/byAgeBetween?min=10&max=12")
                         .content(studentObject.toString())
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -216,7 +216,7 @@ public class TestsStudentController {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .put("/students/{id}", id)
-                        .content(studentObject.toString())
+                        .content(student.toString())
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
