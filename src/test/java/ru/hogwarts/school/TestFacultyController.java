@@ -48,9 +48,9 @@ public class TestFacultyController {
         String name = "Barbie";
         String color = "Pink";
 
-        JSONObject studentObject = new JSONObject();
-        studentObject.put("name", name);
-        studentObject.put("color", color);
+        JSONObject facultyObject = new JSONObject();
+        facultyObject.put("name", name);
+        facultyObject.put("color", color);
 
         Faculty faculty = new Faculty();
         faculty.setId(id);
@@ -61,7 +61,7 @@ public class TestFacultyController {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/faculties")
-                        .content(studentObject.toString())
+                        .content(facultyObject.toString())
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -77,9 +77,9 @@ public class TestFacultyController {
         String name = "Barbie";
         String color = "Pink";
 
-        JSONObject studentObject = new JSONObject();
-        studentObject.put("name", name);
-        studentObject.put("color", color);
+        JSONObject facultyObject = new JSONObject();
+        facultyObject.put("name", name);
+        facultyObject.put("color", color);
 
         Faculty faculty = new Faculty();
         faculty.setId(id);
@@ -102,9 +102,9 @@ public class TestFacultyController {
         String name = "Barbie";
         String color = "Pink";
 
-        JSONObject studentObject = new JSONObject();
-        studentObject.put("name", name);
-        studentObject.put("color", color);
+        JSONObject facultyObject = new JSONObject();
+        facultyObject.put("name", name);
+        facultyObject.put("color", color);
 
         Faculty faculty = new Faculty();
         faculty.setId(id);
@@ -126,9 +126,9 @@ public class TestFacultyController {
         String name = "Barbie";
         String color = "Pink";
 
-        JSONObject studentObject = new JSONObject();
-        studentObject.put("name", name);
-        studentObject.put("color", color);
+        JSONObject facultyObject = new JSONObject();
+        facultyObject.put("name", name);
+        facultyObject.put("color", color);
 
         Faculty faculty = new Faculty();
         faculty.setId(id);
@@ -153,9 +153,9 @@ public class TestFacultyController {
         String name = "Barbie";
         String color = "Pink";
 
-        JSONObject studentObject = new JSONObject();
-        studentObject.put("name", name);
-        studentObject.put("color", color);
+        JSONObject facultyObject = new JSONObject();
+        facultyObject.put("name", name);
+        facultyObject.put("color", color);
 
         Faculty faculty = new Faculty();
         faculty.setId(id);
@@ -178,9 +178,9 @@ public class TestFacultyController {
         String name = "Barbie";
         String color = "Pink";
 
-        JSONObject studentObject = new JSONObject();
-        studentObject.put("name", name);
-        studentObject.put("color", color);
+        JSONObject facultyObject = new JSONObject();
+        facultyObject.put("name", name);
+        facultyObject.put("color", color);
 
         Faculty faculty = new Faculty();
         faculty.setId(id);
@@ -192,12 +192,55 @@ public class TestFacultyController {
         mockMvc.perform(MockMvcRequestBuilders
                         .put("/faculties/" + id)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(studentObject.toString())
+                        .content(facultyObject.toString())
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(id))
                 .andExpect(jsonPath("$.name").value("updateName"))
                 .andExpect(jsonPath("$.color").value(color));
+    }
+    @Test
+    public void getStudentsByIdOfFacultyCopy() throws Exception {
+        List<Student> students = new ArrayList<>();
+        Long facultyID = 1L;
+        String facultyName = "Barbie";
+        String color = "Pink";
+
+        Long id = 1L;
+        String name = "Bob";
+        int age = 12;
+
+        JSONObject facultyObject = new JSONObject();
+        facultyObject.put("name", facultyName);
+        facultyObject.put("color", color);
+
+        Faculty faculty = new Faculty();
+        faculty.setId(facultyID);
+        faculty.setName(facultyName);
+        faculty.setColor(color);
+
+        JSONObject studentObject = new JSONObject();
+        studentObject.put("name", name);
+        studentObject.put("age", age);
+
+        Student student = new Student();
+        student.setId(id);
+        student.setName(name);
+        student.setAge(age);
+        student.setFaculty(faculty);
+
+        students.add(student);
+
+        when(facultyService.getStudentsOfFaculties(any(Long.class))).thenReturn(students);
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/faculties/studentsByID/{id}", id )
+                        .content(studentObject.toString())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(facultyObject.toString())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 }
