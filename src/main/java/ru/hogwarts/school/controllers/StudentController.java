@@ -33,7 +33,7 @@ public class StudentController {
         return studentService.add(student);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<Student> update(@PathVariable Long id, @RequestBody Student student) {
         Student savedStudent = studentService.update(id, student);
         if (savedStudent == null) {

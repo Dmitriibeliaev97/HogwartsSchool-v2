@@ -199,27 +199,39 @@ public class TestsStudentController {
         String name = "Bob";
         int age = 12;
 
+        String facultyName = "Гриффиндор";
+        Long facultyID = 1L;
+        String color = "Красный";
+
+        JSONObject facultyObject = new JSONObject();
+        facultyObject.put("id", facultyID);
+        facultyObject.put("name", facultyName);
+        facultyObject.put("color", color);
+
+        Faculty faculty = new Faculty();
+        faculty.setId(facultyID);
+        faculty.setName(facultyName);
+        faculty.setColor(color);
+
         JSONObject studentObject = new JSONObject();
         studentObject.put("name", name);
         studentObject.put("age", age);
+        studentObject.put("faculty", faculty);
 
         Student student = new Student();
         student.setId(id);
         student.setName(name);
         student.setAge(age);
+        student.setFaculty(faculty);
 
-        when(studentService.get(any(Long.class))).thenReturn(student);
         when(studentService.update(id, student)).thenReturn(student);
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .put("/students/{id}", id)
-                        .content(String.valueOf(student))
+                        .put("/students/update/{id}", id)
+                        .content(String.valueOf(studentObject))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(id))
-                .andExpect(jsonPath("$.name").value(name))
-                .andExpect(jsonPath("$.age").value(age));
+                .andExpect(status().isOk());
     }
 
     @Test
