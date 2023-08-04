@@ -1,5 +1,6 @@
 package ru.hogwarts.school;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -8,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import ru.hogwarts.school.controllers.StudentController;
@@ -34,16 +36,14 @@ public class TestsStudentController {
     private AvatarService avatarService;
     @InjectMocks
     private StudentController studentController;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Test
     public void addStudentTest() throws Exception {
         Long id = 1L;
         String name = "Bob";
         int age = 12;
-
-        JSONObject studentObject = new JSONObject();
-        studentObject.put("name", name);
-        studentObject.put("age", age);
 
         Student student = new Student();
         student.setId(id);
@@ -54,7 +54,7 @@ public class TestsStudentController {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/students")
-                        .content(studentObject.toString())
+                        .content(objectMapper.writeValueAsBytes(student))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -82,9 +82,13 @@ public class TestsStudentController {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/students/" + id)
+                        .content(objectMapper.writeValueAsBytes(student))
+                        .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(id));
+                .andExpect(jsonPath("$.id").value(id))
+                .andExpect(jsonPath("$.name").value(name))
+                .andExpect(jsonPath("$.age").value(age));
     }
 
     @Test
@@ -106,7 +110,9 @@ public class TestsStudentController {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .delete("/students/" + id)
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .content(objectMapper.writeValueAsBytes(student))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
@@ -132,9 +138,11 @@ public class TestsStudentController {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/students")
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .content(objectMapper.writeValueAsBytes(student))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(1)));
+                .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(students.size())));
     }
 
     @Test
@@ -143,10 +151,6 @@ public class TestsStudentController {
         Long id = 1L;
         String name = "Bob";
         int age = 12;
-
-        JSONObject studentObject = new JSONObject();
-        studentObject.put("name", name);
-        studentObject.put("age", age);
 
         Student student = new Student();
         student.setId(id);
@@ -159,6 +163,8 @@ public class TestsStudentController {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/students/by-age/" + age)
+                        .content(objectMapper.writeValueAsBytes(student))
+                        .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
@@ -172,9 +178,6 @@ public class TestsStudentController {
         int minAge = 10;
         int maxAge = 12;
 
-        JSONObject studentObject = new JSONObject();
-        studentObject.put("name", name);
-        studentObject.put("age", age);
 
         Student student = new Student();
         student.setId(id);
@@ -187,10 +190,11 @@ public class TestsStudentController {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/students/byAgeBetween?min=10&max=12")
-                        .content(studentObject.toString())
+                        .content(objectMapper.writeValueAsBytes(student))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(students.size())));
     }
 
     @Test
@@ -228,10 +232,13 @@ public class TestsStudentController {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .put("/students/update/{id}", id)
-                        .content(String.valueOf(studentObject))
+                        .content(objectMapper.writeValueAsBytes(student))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(id))
+                .andExpect(jsonPath("$.name").value(name))
+                .andExpect(jsonPath("$.age").value(age));
     }
 
     @Test
@@ -244,18 +251,11 @@ public class TestsStudentController {
         Long facultyID = 1L;
         String color = "Красный";
 
-        JSONObject facultyObject = new JSONObject();
-        facultyObject.put("name", facultyName);
-        facultyObject.put("color", color);
-
         Faculty faculty = new Faculty();
         faculty.setId(facultyID);
         faculty.setName(facultyName);
         faculty.setColor(color);
 
-        JSONObject studentObject = new JSONObject();
-        studentObject.put("name", name);
-        studentObject.put("age", age);
 
         Student student = new Student();
         student.setId(id);
@@ -266,12 +266,15 @@ public class TestsStudentController {
         when(studentService.getFacultyOfStudent(any(Long.class))).thenReturn(faculty);
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/students/getFacultyByID/{id}", id )
-                        .content(studentObject.toString())
+                        .get("/students/getFacultyByID/{id}", id)
+                        .content(objectMapper.writeValueAsBytes(student))
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(facultyObject.toString())
+                        .content(objectMapper.writeValueAsBytes(faculty))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(facultyID))
+                .andExpect(jsonPath("$.name").value(facultyName))
+                .andExpect(jsonPath("$.color").value(color));
     }
 }

@@ -1,5 +1,6 @@
 package ru.hogwarts.school;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -39,18 +40,15 @@ public class TestFacultyController {
     private FacultyService facultyService;
     @MockBean
     private AvatarService avatarService;
-
     @InjectMocks
     private FacultyController facultyController;
+    @Autowired
+    private ObjectMapper objectMapper;
     @Test
     public void addFacultyTest() throws Exception {
         Long id = 1L;
         String name = "Barbie";
         String color = "Pink";
-
-        JSONObject facultyObject = new JSONObject();
-        facultyObject.put("name", name);
-        facultyObject.put("color", color);
 
         Faculty faculty = new Faculty();
         faculty.setId(id);
@@ -61,7 +59,7 @@ public class TestFacultyController {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/faculties")
-                        .content(facultyObject.toString())
+                        .content(objectMapper.writeValueAsBytes(faculty))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -77,10 +75,6 @@ public class TestFacultyController {
         String name = "Barbie";
         String color = "Pink";
 
-        JSONObject facultyObject = new JSONObject();
-        facultyObject.put("name", name);
-        facultyObject.put("color", color);
-
         Faculty faculty = new Faculty();
         faculty.setId(id);
         faculty.setName(name);
@@ -92,8 +86,11 @@ public class TestFacultyController {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/faculties/by-color/" + color)
+                        .content(objectMapper.writeValueAsBytes(faculty))
+                        .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(faculties.size())));
     }
 
     @Test
@@ -101,10 +98,6 @@ public class TestFacultyController {
         Long id = 1L;
         String name = "Barbie";
         String color = "Pink";
-
-        JSONObject facultyObject = new JSONObject();
-        facultyObject.put("name", name);
-        facultyObject.put("color", color);
 
         Faculty faculty = new Faculty();
         faculty.setId(id);
@@ -115,20 +108,18 @@ public class TestFacultyController {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .delete("/faculties/" + id)
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .content(objectMapper.writeValueAsBytes(faculty))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
-    public void getAllStudentsTest() throws Exception {
+    public void getAllFacultiesTest() throws Exception {
         List<Faculty> faculties = new ArrayList<>();
         Long id = 1L;
         String name = "Barbie";
         String color = "Pink";
-
-        JSONObject facultyObject = new JSONObject();
-        facultyObject.put("name", name);
-        facultyObject.put("color", color);
 
         Faculty faculty = new Faculty();
         faculty.setId(id);
@@ -141,9 +132,11 @@ public class TestFacultyController {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/faculties")
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .content(objectMapper.writeValueAsBytes(faculty))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(1)));
+                .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(faculties.size())));
     }
 
     @Test
@@ -152,10 +145,6 @@ public class TestFacultyController {
         Long id = 1L;
         String name = "Barbie";
         String color = "Pink";
-
-        JSONObject facultyObject = new JSONObject();
-        facultyObject.put("name", name);
-        facultyObject.put("color", color);
 
         Faculty faculty = new Faculty();
         faculty.setId(id);
@@ -168,7 +157,9 @@ public class TestFacultyController {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/faculties/findFaculty")
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .content(objectMapper.writeValueAsBytes(faculty))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
@@ -178,10 +169,6 @@ public class TestFacultyController {
         String name = "Barbie";
         String color = "Pink";
 
-        JSONObject facultyObject = new JSONObject();
-        facultyObject.put("name", name);
-        facultyObject.put("color", color);
-
         Faculty faculty = new Faculty();
         faculty.setId(id);
         faculty.setName(name);
@@ -190,14 +177,13 @@ public class TestFacultyController {
         when(facultyService.update(id, faculty)).thenReturn(faculty);
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .put("/faculties/" + id)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(facultyObject.toString())
+                        .put("/faculties/update/{id}", id)
+                        .content(objectMapper.writeValueAsBytes(faculty))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(id))
-                .andExpect(jsonPath("$.name").value("updateName"))
+                .andExpect(jsonPath("$.name").value(name))
                 .andExpect(jsonPath("$.color").value(color));
     }
     @Test
@@ -211,18 +197,10 @@ public class TestFacultyController {
         String name = "Bob";
         int age = 12;
 
-        JSONObject facultyObject = new JSONObject();
-        facultyObject.put("name", facultyName);
-        facultyObject.put("color", color);
-
         Faculty faculty = new Faculty();
         faculty.setId(facultyID);
         faculty.setName(facultyName);
         faculty.setColor(color);
-
-        JSONObject studentObject = new JSONObject();
-        studentObject.put("name", name);
-        studentObject.put("age", age);
 
         Student student = new Student();
         student.setId(id);
@@ -236,9 +214,9 @@ public class TestFacultyController {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/faculties/studentsByID/{id}", id )
-                        .content(studentObject.toString())
+                        .content(objectMapper.writeValueAsBytes(student))
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(facultyObject.toString())
+                        .content(objectMapper.writeValueAsBytes(faculty))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
