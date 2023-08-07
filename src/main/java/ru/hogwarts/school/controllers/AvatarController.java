@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collection;
 
 @RestController
 @RequestMapping("avatars")
@@ -60,4 +61,20 @@ public class AvatarController {
             is.transferTo(os);
         }
     }
-}
+
+    @GetMapping(value = "/avatar-by-page")
+    public ResponseEntity<byte[]> getAvatarByPage(@RequestParam("page") int pageNumber,
+                                                              @RequestParam("size") int pageSize,
+                                                              HttpServletResponse response) throws IOException {
+        Avatar avatar = (Avatar) avatarService.findAvatarByPage(pageNumber, pageSize);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType(avatar.getMediaType()));
+        headers.setContentLength(avatar.getData().length);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .headers(headers)
+                    .body(avatar.getData());
+        }
+
+    }
