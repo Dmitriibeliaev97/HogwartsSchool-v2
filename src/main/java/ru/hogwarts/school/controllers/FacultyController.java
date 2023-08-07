@@ -32,7 +32,7 @@ public class FacultyController {
         return facultyService.add(faculty);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<Faculty> update(@PathVariable Long id, @RequestBody Faculty faculty) {
         Faculty savedFaculty = facultyService.update(id, faculty);
         if (savedFaculty == null) {
