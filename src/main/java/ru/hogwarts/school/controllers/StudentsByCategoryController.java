@@ -22,4 +22,14 @@ public class StudentsByCategoryController {
     public Integer getStudentCount() {
         return studentService.getStudentCount();
     }
+
+    @GetMapping("/average-age-of-students")
+    public Integer getAverageAgeOfStudents() {
+        return studentService.getAverageAgeOfStudents();
+    }
+
+    @GetMapping("/last-five-sudents")
+    public Collection<StudentsByCategory> getLastFiveStudents() {
+        return studentService.getLastFiveStudents();
+    }
 }
