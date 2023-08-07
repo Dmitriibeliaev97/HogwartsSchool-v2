@@ -63,6 +63,7 @@ public class StudentController {
     public Collection<Student> getStudentBetweenAge(@RequestParam int min, @RequestParam int max) {
         return studentService.getStudentsBetweenAge(min, max);
     }
+
     @GetMapping("/getFacultyByID/{id}")
     public ResponseEntity<Faculty> getFacultyOfStudent(@PathVariable Long id) {
         Faculty faculty = studentService.getFacultyOfStudent(id);

@@ -1,7 +1,6 @@
-package ru.hogwarts.school;
+package ru.hogwarts.school.controller.webMvcTest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import ru.hogwarts.school.controllers.StudentController;
@@ -69,10 +67,6 @@ public class TestsStudentController {
         String name = "Bob";
         int age = 12;
 
-        JSONObject studentObject = new JSONObject();
-        studentObject.put("name", name);
-        studentObject.put("age", age);
-
         Student student = new Student();
         student.setId(id);
         student.setName(name);
@@ -97,10 +91,6 @@ public class TestsStudentController {
         String name = "Bob";
         int age = 12;
 
-        JSONObject studentObject = new JSONObject();
-        studentObject.put("name", name);
-        studentObject.put("age", age);
-
         Student student = new Student();
         student.setId(id);
         student.setName(name);
@@ -122,10 +112,6 @@ public class TestsStudentController {
         Long id = 1L;
         String name = "Bob";
         int age = 12;
-
-        JSONObject studentObject = new JSONObject();
-        studentObject.put("name", name);
-        studentObject.put("age", age);
 
         Student student = new Student();
         student.setId(id);
@@ -178,7 +164,6 @@ public class TestsStudentController {
         int minAge = 10;
         int maxAge = 12;
 
-
         Student student = new Student();
         student.setId(id);
         student.setName(name);
@@ -207,20 +192,10 @@ public class TestsStudentController {
         Long facultyID = 1L;
         String color = "Красный";
 
-        JSONObject facultyObject = new JSONObject();
-        facultyObject.put("id", facultyID);
-        facultyObject.put("name", facultyName);
-        facultyObject.put("color", color);
-
         Faculty faculty = new Faculty();
         faculty.setId(facultyID);
         faculty.setName(facultyName);
         faculty.setColor(color);
-
-        JSONObject studentObject = new JSONObject();
-        studentObject.put("name", name);
-        studentObject.put("age", age);
-        studentObject.put("faculty", faculty);
 
         Student student = new Student();
         student.setId(id);
@@ -255,7 +230,6 @@ public class TestsStudentController {
         faculty.setId(facultyID);
         faculty.setName(facultyName);
         faculty.setColor(color);
-
 
         Student student = new Student();
         student.setId(id);
