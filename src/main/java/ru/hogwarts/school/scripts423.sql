@@ -3,7 +3,7 @@ FROM student
 FULL JOIN faculty ON student.faculty = faculty.name
 
 ALTER TABLE student
-avatar_id INTEGER REFERENCES avatar(id);
+ADD avatar_id INTEGER REFERENCES avatar(id);
 
 SELECT student.name, avatar.name, avatar.id
 FROM student

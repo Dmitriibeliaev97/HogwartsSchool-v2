@@ -1,4 +1,4 @@
-CREATE TABLE persons(
+CREATE TABLE persons (
 id REAL,
 name TEXT PRIMARY KEY,
 age INTEGER,
