@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ru.hogwarts.school.dto.AvatarDTO;
 import ru.hogwarts.school.model.Avatar;
 import ru.hogwarts.school.services.AvatarService;
 
@@ -64,8 +65,8 @@ public class AvatarController {
     }
 
     @GetMapping(value = "/avatar-by-page")
-    public List<Avatar> getAvatarByPage(@RequestParam("page") int pageNumber,
-                                        @RequestParam("size") int pageSize) throws IOException {
+    public List<AvatarDTO> getAvatarByPage(@RequestParam("page") int pageNumber,
+                                           @RequestParam("size") int pageSize) throws IOException {
 
         return avatarService.findAvatarByPage(pageNumber, pageSize);
     }
