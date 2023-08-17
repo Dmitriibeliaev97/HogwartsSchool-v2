@@ -37,7 +37,7 @@ public class AvatarServiceImpl implements AvatarService {
     private final StudentRepository studentRepository;
     private final AvatarMapper avatarMapper;
 
-    Logger logger = LoggerFactory.getLogger(AvatarServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(AvatarServiceImpl.class);
 
     @Value("${path.to.avatars.folder}")
     private String avatarsDir;
