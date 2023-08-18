@@ -1,7 +1,11 @@
 package ru.hogwarts.school.services.impl;
 
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.LoggerFactoryFriend;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -27,10 +31,13 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
 @Service
 @Transactional
+@Profile("production")
 public class AvatarServiceImpl implements AvatarService {
     private final AvatarRepository avatarRepository;
     private final StudentRepository studentRepository;
     private final AvatarMapper avatarMapper;
+
+    private static final Logger logger = LoggerFactory.getLogger(AvatarServiceImpl.class);
 
     @Value("${path.to.avatars.folder}")
     private String avatarsDir;
@@ -62,6 +69,7 @@ public class AvatarServiceImpl implements AvatarService {
         avatar.setMediaType(avatarFile.getContentType());
         avatar.setData(generateDataForDB(filePath));
         avatarRepository.save(avatar);
+        logger.debug("Was invoked a method to create an avatar");
     }
 
     private byte[] generateDataForDB(Path filePath) throws IOException {
@@ -88,6 +96,7 @@ public class AvatarServiceImpl implements AvatarService {
     @Override
     public List<AvatarDTO> findAvatarByPage(int pageNumber, int pageSize) {
         Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
+        logger.debug("Was invoked a method to find an avatar");
         return avatarRepository
                 .findAll(pageable)
                 .getContent()
