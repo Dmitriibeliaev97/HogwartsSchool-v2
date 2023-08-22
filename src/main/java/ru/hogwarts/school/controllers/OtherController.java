@@ -16,7 +16,7 @@ public class OtherController {
     }
 
     @GetMapping
-    public Integer getInteger() {
+    public Integer getInteger() throws InterruptedException {
         return otherService.getInteger();
     }
 }
