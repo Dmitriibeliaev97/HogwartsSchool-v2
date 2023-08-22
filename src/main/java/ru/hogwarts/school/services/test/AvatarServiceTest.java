@@ -1,5 +1,6 @@
 package ru.hogwarts.school.services.test;
 
+import jakarta.transaction.Transactional;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -10,7 +11,8 @@ import ru.hogwarts.school.services.AvatarService;
 import java.io.IOException;
 import java.util.List;
 @Service
-@Profile("!production")
+@Transactional
+@Profile("test")
 public class AvatarServiceTest implements AvatarService {
     @Override
     public void uploadAvatar(Long studentId, MultipartFile avatarFile) throws IOException {

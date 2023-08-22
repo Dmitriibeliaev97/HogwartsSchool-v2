@@ -12,7 +12,7 @@ import ru.hogwarts.school.services.FacultyService;
 import java.util.Collection;
 
 @Service
-@Profile("production")
+@Profile("prod")
 public class FacultyServiceImpl implements FacultyService {
     private final FacultyRepository facultyRepository;
 

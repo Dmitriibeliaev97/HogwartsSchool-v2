@@ -8,7 +8,7 @@ import ru.hogwarts.school.services.FacultyService;
 
 import java.util.Collection;
 @Service
-@Profile("!production")
+@Profile("test")
 public class FacultyServiceTest implements FacultyService {
     @Override
     public Faculty add(Faculty faculty) {

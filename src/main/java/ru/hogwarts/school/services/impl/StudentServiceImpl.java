@@ -16,7 +16,7 @@ import ru.hogwarts.school.services.StudentService;
 import java.util.Collection;
 
 @Service
-@Profile("production")
+@Profile("prod")
 public class StudentServiceImpl implements StudentService {
     private final StudentRepository studentRepository;
 

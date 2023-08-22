@@ -9,20 +9,11 @@ import ru.hogwarts.school.services.StudentService;
 
 import java.util.Collection;
 @Service
-@Profile("!production")
+@Profile("test")
 public class StudentServiceTest implements StudentService {
     @Override
     public Student add(Student student) {
-        Faculty facultyTest = new Faculty();
-        facultyTest.setId(1000L);
-        facultyTest.setColor("Black");
-        facultyTest.setName("Faculty");
-
-        Student studentTest = new Student();
-        studentTest.setId(1000L);
-        studentTest.setName("Dmitrii Beliaev");
-        studentTest.setFaculty(facultyTest);
-        return studentTest;
+        return null;
     }
 
     @Override
