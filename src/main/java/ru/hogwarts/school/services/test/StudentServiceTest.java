@@ -8,6 +8,8 @@ import ru.hogwarts.school.model.StudentsByCategory;
 import ru.hogwarts.school.services.StudentService;
 
 import java.util.Collection;
+import java.util.List;
+
 @Service
 @Profile("test")
 public class StudentServiceTest implements StudentService {
@@ -63,6 +65,16 @@ public class StudentServiceTest implements StudentService {
 
     @Override
     public Collection<StudentsByCategory> getLastFiveStudents() {
+        return null;
+    }
+
+    @Override
+    public List<String> getAllStudentsFromA(String letter) {
+        return null;
+    }
+
+    @Override
+    public Integer getAverageAge() {
         return null;
     }
 }

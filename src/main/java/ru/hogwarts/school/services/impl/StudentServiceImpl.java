@@ -3,17 +3,16 @@ package ru.hogwarts.school.services.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.model.StudentsByCategory;
 import ru.hogwarts.school.repository.StudentRepository;
 import ru.hogwarts.school.services.StudentService;
 
-import java.util.Collection;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Profile("prod")
@@ -96,6 +95,26 @@ public class StudentServiceImpl implements StudentService {
         logger.debug("Was invoked a method to find last five students");
         return studentRepository.getLastFiveStudents();
     }
-
+    @Override
+    public Collection<String> getAllStudentsFromA(String letter) {
+        logger.debug("Was invoked a method to find all students from 'A'");
+        Collection<Student> allStudents = studentRepository.findAll();
+        Collection<String> studentsNames = allStudents.stream()
+                .filter(s -> s.getName().startsWith(letter))
+                .map(Student::getName)
+                .map(String::toUpperCase)
+                .collect(Collectors.toList());
+        return studentsNames;
+    }
+    @Override
+    public Integer getAverageAge() {
+        logger.debug("Was invoked a method to get average age of students v2");
+        Collection<Student> allStudents = studentRepository.findAll();
+        Integer averageAge = (int) allStudents.stream()
+                .mapToInt(Student::getAge)
+                .average()
+                .getAsDouble();
+        return averageAge;
+    }
 
 }

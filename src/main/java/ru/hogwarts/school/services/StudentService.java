@@ -5,6 +5,7 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.model.StudentsByCategory;
 
 import java.util.Collection;
+import java.util.List;
 
 public interface StudentService {
     Student add(Student student);
@@ -23,4 +24,6 @@ public interface StudentService {
     Integer getStudentCount();
     Integer getAverageAgeOfStudents();
     Collection<StudentsByCategory> getLastFiveStudents();
+    Collection<String> getAllStudentsFromA(String letter);
+    Integer getAverageAge();
 }

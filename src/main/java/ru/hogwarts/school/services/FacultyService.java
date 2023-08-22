@@ -20,4 +20,5 @@ public interface FacultyService {
     Collection<Faculty> getAllFaculties();
 
     Collection<Student> getStudentsOfFaculties(Long id);
+    String longestNameOfFaculty();
 }

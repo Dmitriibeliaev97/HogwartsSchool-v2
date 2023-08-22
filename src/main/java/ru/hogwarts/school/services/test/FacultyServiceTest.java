@@ -49,4 +49,9 @@ public class FacultyServiceTest implements FacultyService {
     public Collection<Student> getStudentsOfFaculties(Long id) {
         return null;
     }
+
+    @Override
+    public String longestNameOfFaculty() {
+        return null;
+    }
 }
