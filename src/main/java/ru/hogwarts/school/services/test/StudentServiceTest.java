@@ -69,7 +69,7 @@ public class StudentServiceTest implements StudentService {
     }
 
     @Override
-    public List<String> getAllStudentsFromA(String letter) {
+    public List<String> getAllStudentsFrom(String letter) {
         return null;
     }
 

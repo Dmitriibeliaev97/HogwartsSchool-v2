@@ -24,6 +24,6 @@ public interface StudentService {
     Integer getStudentCount();
     Integer getAverageAgeOfStudents();
     Collection<StudentsByCategory> getLastFiveStudents();
-    Collection<String> getAllStudentsFromA(String letter);
+    Collection<String> getAllStudentsFrom(String letter);
     Integer getAverageAge();
 }

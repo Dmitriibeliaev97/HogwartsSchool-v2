@@ -96,7 +96,7 @@ public class StudentServiceImpl implements StudentService {
         return studentRepository.getLastFiveStudents();
     }
     @Override
-    public Collection<String> getAllStudentsFromA(String letter) {
+    public Collection<String> getAllStudentsFrom(String letter) {
         logger.debug("Was invoked a method to find all students from 'A'");
         Collection<Student> allStudents = studentRepository.findAll();
         Collection<String> studentsNames = allStudents.stream()

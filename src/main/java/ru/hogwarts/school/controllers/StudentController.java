@@ -71,7 +71,7 @@ public class StudentController {
 
     @GetMapping("/students-from/{letter}")
     public Collection<String> getStudentByAlphabetAndUpperCaseFromA(@PathVariable String letter) {
-        return studentService.getAllStudentsFromA(letter);
+        return studentService.getAllStudentsFrom(letter);
     }
 
     @GetMapping("/get-average-age")
