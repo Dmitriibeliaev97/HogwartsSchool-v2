@@ -126,17 +126,18 @@ public class StudentServiceImpl implements StudentService {
         List<String> studentsNames = allStudents.stream()
                 .map(Student::getName)
                 .collect(Collectors.toList());
+
+        System.out.println(studentsNames.get(0));
         System.out.println(studentsNames.get(1));
-        System.out.println(studentsNames.get(2));
 
         new Thread(() -> {
-            System.out.println(studentsNames.get(2));
-            System.out.println(studentsNames.get(3));
+            System.out.println(studentsNames.get(1));
+            System.out.println(studentsNames.get(4));
         }).start();
 
         new Thread(() -> {
+            System.out.println(studentsNames.get(2));
             System.out.println(studentsNames.get(5));
-            System.out.println(studentsNames.get(6));
         }).start();
        return studentsNames;
 
