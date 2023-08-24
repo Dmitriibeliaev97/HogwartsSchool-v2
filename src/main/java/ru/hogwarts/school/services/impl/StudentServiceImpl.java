@@ -132,11 +132,11 @@ public class StudentServiceImpl implements StudentService {
 
         new Thread(() -> {
             System.out.println(studentsNames.get(1));
-            System.out.println(studentsNames.get(4));
+            System.out.println(studentsNames.get(2));
         }).start();
 
         new Thread(() -> {
-            System.out.println(studentsNames.get(2));
+            System.out.println(studentsNames.get(4));
             System.out.println(studentsNames.get(5));
         }).start();
        return studentsNames;
