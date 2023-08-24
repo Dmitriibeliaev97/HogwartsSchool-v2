@@ -69,12 +69,17 @@ public class StudentServiceTest implements StudentService {
     }
 
     @Override
-    public List<String> getAllStudentsFrom(String letter) {
+    public List<String> getAllStudentsFrom (String letter) {
         return null;
     }
 
     @Override
     public Integer getAverageAge() {
+        return null;
+    }
+
+    @Override
+    public List<String> getAllStudentsStream() {
         return null;
     }
 }
