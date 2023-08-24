@@ -83,4 +83,9 @@ public class StudentController {
     public List<String> getAllStudentsStream() {
        return studentService.getAllStudentsStream();
     }
+
+    @GetMapping("/synchronized-stream")
+    public List<String> getAllStudentsSynchronizedStream() {
+        return studentService.getAllStudentsSynchronizedStream();
+    }
 }

@@ -82,4 +82,9 @@ public class StudentServiceTest implements StudentService {
     public List<String> getAllStudentsStream() {
         return null;
     }
+
+    @Override
+    public List<String> getAllStudentsSynchronizedStream() {
+        return null;
+    }
 }

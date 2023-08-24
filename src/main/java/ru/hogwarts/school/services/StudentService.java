@@ -27,4 +27,5 @@ public interface StudentService {
     Collection<String> getAllStudentsFrom(String letter);
     Integer getAverageAge();
     List<String> getAllStudentsStream();
+    public List<String> getAllStudentsSynchronizedStream();
 }
