@@ -87,4 +87,5 @@ public class StudentServiceTest implements StudentService {
     public List<String> getAllStudentsSynchronizedStream() {
         return null;
     }
+
 }
