@@ -122,24 +122,19 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<String> getAllStudentsStream() {
-        List<Student> allStudents = new ArrayList<>(studentRepository.findAll());
-        List<String> studentsNames = allStudents.stream()
-                .map(Student::getName)
-                .collect(Collectors.toList());
-
-        System.out.println(studentsNames.get(0));
-        System.out.println(studentsNames.get(1));
+        System.out.println(getStudentNames().get(0));
+        System.out.println(getStudentNames().get(1));
 
         new Thread(() -> {
-            System.out.println(studentsNames.get(1));
-            System.out.println(studentsNames.get(2));
+            System.out.println(getStudentNames().get(1));
+            System.out.println(getStudentNames().get(2));
         }).start();
 
         new Thread(() -> {
-            System.out.println(studentsNames.get(4));
-            System.out.println(studentsNames.get(5));
+            System.out.println(getStudentNames().get(4));
+            System.out.println(getStudentNames().get(5));
         }).start();
-       return studentsNames;
+       return getStudentNames();
     }
     @Override
     public List<String> getAllStudentsSynchronizedStream() {
