@@ -153,11 +153,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     public synchronized void doOperation(int number) {
-        List<Student> allStudents = new ArrayList<>(studentRepository.findAll());
-        List<String> studentsNames = allStudents.stream()
-                .map(Student::getName)
-                .collect(Collectors.toList());
-        System.out.println(studentsNames.get(number));
+        System.out.println(getStudentNames().get(number));
     }
 
     public List<String> getStudentNames() {
