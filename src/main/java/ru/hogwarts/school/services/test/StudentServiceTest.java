@@ -69,7 +69,7 @@ public class StudentServiceTest implements StudentService {
     }
 
     @Override
-    public List<String> getAllStudentsFrom(String letter) {
+    public List<String> getAllStudentsFrom (String letter) {
         return null;
     }
 
@@ -77,4 +77,15 @@ public class StudentServiceTest implements StudentService {
     public Integer getAverageAge() {
         return null;
     }
+
+    @Override
+    public List<String> getAllStudentsStream() {
+        return null;
+    }
+
+    @Override
+    public List<String> getAllStudentsSynchronizedStream() {
+        return null;
+    }
+
 }

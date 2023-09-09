@@ -26,4 +26,6 @@ public interface StudentService {
     Collection<StudentsByCategory> getLastFiveStudents();
     Collection<String> getAllStudentsFrom(String letter);
     Integer getAverageAge();
+    List<String> getAllStudentsStream();
+    List<String> getAllStudentsSynchronizedStream();
 }

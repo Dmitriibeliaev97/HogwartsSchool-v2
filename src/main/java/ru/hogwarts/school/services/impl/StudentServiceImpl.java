@@ -72,6 +72,7 @@ public class StudentServiceImpl implements StudentService {
         logger.debug("Was invoked a method to find students between some age");
         return studentRepository.findByAgeBetween(min, max);
     }
+
     @Override
     public Faculty getFacultyOfStudent(Long id) {
         logger.debug("Was invoked a method to find faculty of student");
@@ -95,9 +96,10 @@ public class StudentServiceImpl implements StudentService {
         logger.debug("Was invoked a method to find last five students");
         return studentRepository.getLastFiveStudents();
     }
+
     @Override
     public Collection<String> getAllStudentsFrom(String letter) {
-        logger.debug("Was invoked a method to find all students from 'A'");
+        logger.debug("Was invoked a method to find all students from ");
         Collection<Student> allStudents = studentRepository.findAll();
         Collection<String> studentsNames = allStudents.stream()
                 .filter(s -> s.getName().startsWith(letter))
@@ -106,6 +108,7 @@ public class StudentServiceImpl implements StudentService {
                 .collect(Collectors.toList());
         return studentsNames;
     }
+
     @Override
     public Integer getAverageAge() {
         logger.debug("Was invoked a method to get average age of students v2");
@@ -115,6 +118,50 @@ public class StudentServiceImpl implements StudentService {
                 .average()
                 .getAsDouble();
         return averageAge;
+    }
+
+    @Override
+    public List<String> getAllStudentsStream() {
+        System.out.println(getStudentNames().get(0));
+        System.out.println(getStudentNames().get(1));
+
+        new Thread(() -> {
+            System.out.println(getStudentNames().get(1));
+            System.out.println(getStudentNames().get(2));
+        }).start();
+
+        new Thread(() -> {
+            System.out.println(getStudentNames().get(4));
+            System.out.println(getStudentNames().get(5));
+        }).start();
+       return getStudentNames();
+    }
+    @Override
+    public List<String> getAllStudentsSynchronizedStream() {
+        doOperation(0);
+        doOperation(1);
+        new Thread(() -> {
+            doOperation(2);
+            doOperation(3);
+        }).start();
+
+        new Thread(() -> {
+            doOperation(3);
+            doOperation(4);
+        }).start();
+        return getStudentNames();
+    }
+
+    public synchronized void doOperation(int number) {
+        System.out.println(getStudentNames().get(number));
+    }
+
+    public List<String> getStudentNames() {
+        List<Student> allStudents = new ArrayList<>(studentRepository.findAll());
+        List<String> studentsNames = allStudents.stream()
+                .map(Student::getName)
+                .collect(Collectors.toList());
+        return studentsNames;
     }
 
 }
