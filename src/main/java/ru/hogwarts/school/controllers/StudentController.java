@@ -7,8 +7,7 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.services.StudentService;
 
-import java.util.Collection;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/students")
@@ -33,7 +32,7 @@ public class StudentController {
         return studentService.add(student);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<Student> update(@PathVariable Long id, @RequestBody Student student) {
         Student savedStudent = studentService.update(id, student);
         if (savedStudent == null) {
@@ -59,13 +58,34 @@ public class StudentController {
         return studentService.getAllStudents();
     }
 
-    @GetMapping("byAgeBetween")
+    @GetMapping("/byAgeBetween")
     public Collection<Student> getStudentBetweenAge(@RequestParam int min, @RequestParam int max) {
         return studentService.getStudentsBetweenAge(min, max);
     }
+
     @GetMapping("/getFacultyByID/{id}")
     public ResponseEntity<Faculty> getFacultyOfStudent(@PathVariable Long id) {
         Faculty faculty = studentService.getFacultyOfStudent(id);
         return ResponseEntity.ok(faculty);
+    }
+
+    @GetMapping("/students-from/{letter}")
+    public Collection<String> getStudentByAlphabetAndUpperCaseFromA(@PathVariable String letter) {
+        return studentService.getAllStudentsFrom(letter);
+    }
+
+    @GetMapping("/get-average-age")
+    public Integer getAverageAgeOfStudents() {
+        return studentService.getAverageAge();
+    }
+
+    @GetMapping("/stream")
+    public List<String> getAllStudentsStream() {
+       return studentService.getAllStudentsStream();
+    }
+
+    @GetMapping("/synchronized-stream")
+    public List<String> getAllStudentsSynchronizedStream() {
+        return studentService.getAllStudentsSynchronizedStream();
     }
 }

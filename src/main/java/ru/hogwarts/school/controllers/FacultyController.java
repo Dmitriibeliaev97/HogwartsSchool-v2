@@ -32,7 +32,7 @@ public class FacultyController {
         return facultyService.add(faculty);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<Faculty> update(@PathVariable Long id, @RequestBody Faculty faculty) {
         Faculty savedFaculty = facultyService.update(id, faculty);
         if (savedFaculty == null) {
@@ -65,7 +65,12 @@ public class FacultyController {
     }
 
     @GetMapping("/studentsByID/{id}")
-    public Collection<Student> getStudentsByIdOfFaculty (@PathVariable Long id) {
+    public Collection<Student> getStudentsByIdOfFaculty(@PathVariable Long id) {
         return facultyService.getStudentsOfFaculties(id);
+    }
+
+    @GetMapping("/longest-faculty-name")
+    public String getLongestNameOfFaculty() {
+        return facultyService.longestNameOfFaculty();
     }
 }
